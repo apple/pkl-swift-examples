@@ -1,0 +1,50 @@
+= pkl-swift-example
+
+This is a sample project that demonstrates Pkl <> Swift integration.
+
+This is a basic HTTP server that is configured via Pkl in the `pkl/` directory.
+
+== Requirements
+
+* Swift +5.9
+* Pkl +0.25.0
+
+== Project structure
+
+[cols="1,1"]
+|===
+| Directory
+| Description
+
+| `pkl/`
+| Pkl configuration sources
+
+| `Sources/Gen/`
+| Generated Swift sources from Pkl
+
+| `Sources/App/`
+| Swift files
+|===
+
+== Codegen
+
+Generated sources are already checked into git for learning purposes.
+
+To generate new Pkl sources, first install the Swift code generator:
+
+[source,bash]
+----
+curl https://github.com/apple/pkl-swift/releases/download/0.2.0/pkl-gen-swift-macos.bin -o pkl-gen-swift
+chmod +x pkl-gen-swift
+----
+
+With that installed, generate Swift sources via:
+
+[source,bash]
+----
+pkl-gen-swift pkl/**.pkl -o Sources/Gen
+----
+
+== Running the server
+
+To run the project call `swift run`.
