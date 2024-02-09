@@ -8,7 +8,9 @@ jobs:
     - checkout
     - run:
         command: |-
-          curl -L -o pkl.bin https://github.com/apple/pkl/releases/download/0.25.1/pkl-linux-amd64
+          apt-get -y update
+          apt-get -y install curl
+          curl -L -o pkl.bin https://github.com/apple/pkl/releases/download/0.25.2/pkl-linux-amd64
           chmod +x pkl.bin
           PKL_EXEC=$(pwd)/pkl.bin swift test
     docker:
