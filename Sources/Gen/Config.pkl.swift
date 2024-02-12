@@ -29,7 +29,7 @@ extension Config {
         /// The port the server will accept connections on
         public var port: Int
 
-        /// Wether the server will attempt to minimize TCP packet delay
+        /// Whether the server will attempt to minimize TCP packet delay
         public var tcpNoDelay: Bool
 
         /// Maximum length of the pending connections queue
