@@ -21,7 +21,7 @@ hostname: String
 /// The port the server will accept connections on
 port: Int(isBetween(1, 65_535))
 
-/// Wether the server will attempt to minimize TCP packet delay
+/// Whether the server will attempt to minimize TCP packet delay
 tcpNoDelay: Boolean
 
 /// Maximum length of the pending connections queue
