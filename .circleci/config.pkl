@@ -3,12 +3,14 @@ amends "package://pkg.pkl-lang.org/pkl-project-commons/pkl.impl.circleci@1.0.1#/
 prb {
   jobs {
     "test"
+    "test-license-headers"
   }
 }
 
 main {
   jobs {
     "test"
+    "test-license-headers"
   }
 }
 
@@ -29,6 +31,20 @@ jobs {
           chmod +x pkl.bin
           PKL_EXEC=$(pwd)/pkl.bin swift test
           """
+      }
+    }
+  }
+
+  ["test-license-headers"] {
+    docker {
+      new {
+        image = "ghcr.io/korandoru/hawkeye"
+      }
+    }
+    steps {
+      "checkout"
+      new RunStep {
+        command = "/bin/hawkeye check --fail-if-unknown"
       }
     }
   }

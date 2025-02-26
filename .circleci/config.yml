@@ -15,6 +15,13 @@ jobs:
           PKL_EXEC=$(pwd)/pkl.bin swift test
     docker:
     - image: swift:5.9
+  test-license-headers:
+    steps:
+    - checkout
+    - run:
+        command: /bin/hawkeye check --fail-if-unknown
+    docker:
+    - image: ghcr.io/korandoru/hawkeye
 workflows:
   prb:
     jobs:
@@ -26,6 +33,10 @@ workflows:
         requires:
         - hold
         - pr-approval/authenticate
+    - test-license-headers:
+        requires:
+        - hold
+        - pr-approval/authenticate
     when:
       matches:
         value: << pipeline.git.branch >>
@@ -33,6 +44,7 @@ workflows:
   main:
     jobs:
     - test
+    - test-license-headers
     when:
       equal:
       - main
