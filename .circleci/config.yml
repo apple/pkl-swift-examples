@@ -14,7 +14,7 @@ jobs:
           chmod +x pkl.bin
           PKL_EXEC=$(pwd)/pkl.bin swift test
     docker:
-    - image: swift:5.9
+    - image: swift:6.1
   test-license-headers:
     steps:
     - checkout

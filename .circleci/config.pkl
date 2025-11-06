@@ -20,7 +20,7 @@ jobs {
   ["test"] {
     docker {
       new {
-        image = "swift:5.9"
+        image = "swift:6.1"
       }
     }
     steps {
