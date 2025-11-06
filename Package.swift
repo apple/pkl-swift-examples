@@ -24,7 +24,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/vapor/vapor.git", from: "4.89.0"),
-        .package(url: "https://github.com/apple/pkl-swift", from: "0.2.0"),
+        .package(url: "https://github.com/apple/pkl-swift", from: "0.7.0"),
     ],
     targets: [
         .target(
