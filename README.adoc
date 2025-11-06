@@ -34,7 +34,7 @@ To generate new Pkl sources, first install the Swift code generator:
 
 [source,bash]
 ----
-curl https://github.com/apple/pkl-swift/releases/download/0.2.0/pkl-gen-swift-macos.bin -o pkl-gen-swift
+curl https://github.com/apple/pkl-swift/releases/download/0.7.0/pkl-gen-swift-macos.bin -o pkl-gen-swift
 chmod +x pkl-gen-swift
 ----
 

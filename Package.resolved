@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/pkl-swift",
       "state" : {
-        "revision" : "34ea34f487cf0b0e6f878536c76f7334933885fc",
-        "version" : "0.2.0"
+        "revision" : "843d1664d31a068ad1cc5816be4d3e654bf4b99c",
+        "version" : "0.7.0"
       }
     },
     {
@@ -52,6 +52,15 @@
       "state" : {
         "revision" : "2a92a7eac411a82fb3a03731be5e76773ebe1b3e",
         "version" : "4.9.0"
+      }
+    },
+    {
+      "identity" : "semanticversion",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftPackageIndex/SemanticVersion",
+      "state" : {
+        "revision" : "3b18d75a3cece558fb98e72d7dd5c83394d86d5b",
+        "version" : "0.5.1"
       }
     },
     {

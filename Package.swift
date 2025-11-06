@@ -1,4 +1,4 @@
-// swift-tools-version:5.9
+// swift-tools-version:6.1
 //===----------------------------------------------------------------------===//
 // Copyright © 2024-2025 Apple Inc. and the Pkl project authors. All rights reserved.
 //
@@ -24,7 +24,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/vapor/vapor.git", from: "4.89.0"),
-        .package(url: "https://github.com/apple/pkl-swift", from: "0.2.0"),
+        .package(url: "https://github.com/apple/pkl-swift", from: "0.7.0"),
     ],
     targets: [
         .target(
