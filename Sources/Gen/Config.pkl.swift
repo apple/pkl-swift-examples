@@ -1,27 +1,11 @@
-// ===----------------------------------------------------------------------===//
-// Copyright © 2024 Apple Inc. and the Pkl project authors. All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//	https://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-// ===----------------------------------------------------------------------===//
-
 // Code generated from Pkl module `Config`. DO NOT EDIT.
 import PklSwift
 
 public enum Config {}
 
 extension Config {
-    public struct Module: PklRegisteredType, Decodable, Hashable {
-        public static var registeredIdentifier: String = "Config"
+    public struct Module: PklRegisteredType, Decodable, Hashable, Sendable {
+        public static let registeredIdentifier: String = "Config"
 
         /// The address the server will accept connections on
         public var hostname: String
@@ -58,7 +42,7 @@ extension Config {
     /// - Parameter source: The source of the Pkl module.
     public static func loadFrom(source: ModuleSource) async throws -> Config.Module {
         try await PklSwift.withEvaluator { evaluator in
-            try await self.loadFrom(evaluator: evaluator, source: source)
+            try await loadFrom(evaluator: evaluator, source: source)
         }
     }
 
