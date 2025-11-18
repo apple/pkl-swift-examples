@@ -20,7 +20,7 @@ import PackageDescription
 let package = Package(
     name: "pkl-swift-examples",
     platforms: [
-        .macOS(.v13),
+        .macOS(.v13)
     ],
     dependencies: [
         .package(url: "https://github.com/vapor/vapor.git", from: "4.89.0"),
@@ -38,13 +38,36 @@ let package = Package(
                 .product(name: "Vapor", package: "vapor"),
             ]
         ),
-        .testTarget(name: "AppTests", dependencies: [
-            "Gen",
-            .target(name: "App"),
-            .product(name: "XCTVapor", package: "vapor"),
+        .executableTarget(
+            name: "BuildTimeEval",
+            dependencies: [
+                "Gen",
+                .product(name: "Vapor", package: "vapor"),
+                .product(name: "PklSwift", package: "pkl-swift"),
+            ],
+            resources: [
+                .embedInCode("config.msgpack")
+            ]
+        ),
+        .testTarget(
+            name: "AppTests",
+            dependencies: [
+                "Gen",
+                .target(name: "App"),
+                .product(name: "XCTVapor", package: "vapor"),
 
-            // Workaround for https://github.com/apple/swift-package-manager/issues/6940
-            .product(name: "Vapor", package: "vapor"),
-        ]),
+                // Workaround for https://github.com/apple/swift-package-manager/issues/6940
+                .product(name: "Vapor", package: "vapor"),
+            ]),
+        .testTarget(
+            name: "BuildTimeEvalTests",
+            dependencies: [
+                "Gen",
+                .target(name: "BuildTimeEval"),
+                .product(name: "XCTVapor", package: "vapor"),
+
+                // Workaround for https://github.com/apple/swift-package-manager/issues/6940
+                .product(name: "Vapor", package: "vapor"),
+            ]),
     ]
 )
