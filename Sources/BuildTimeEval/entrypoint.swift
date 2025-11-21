@@ -1,5 +1,5 @@
 //===----------------------------------------------------------------------===//
-// Copyright © 2024-2025 Apple Inc. and the Pkl project authors. All rights reserved.
+// Copyright © 2025 Apple Inc. and the Pkl project authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,16 +14,24 @@
 // limitations under the License.
 //===----------------------------------------------------------------------===//
 
-// generate config.msgpack: pkl eval pkl/dev/config.pkl -f pkl-binary -o Sources/BuildTimeEval/config.msgpack
+import Logging
+import Vapor
 
-amends "../Config.pkl"
+@main
+enum Entrypoint {
+    static func main() async throws {
+        var env = try Environment.detect()
+        try LoggingSystem.bootstrap(from: &env)
 
-hostname = "localhost"
+        let app = Application(env)
+        defer { app.shutdown() }
 
-port = 8080
-
-tcpNoDelay = true
-
-backlog = 128
-
-serverName = "Pkl Swift Example Server"
+        do {
+            try await configure(app)
+        } catch {
+            app.logger.report(error: error)
+            throw error
+        }
+        try await app.execute()
+    }
+}

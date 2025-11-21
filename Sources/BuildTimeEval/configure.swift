@@ -1,5 +1,5 @@
 //===----------------------------------------------------------------------===//
-// Copyright © 2024-2025 Apple Inc. and the Pkl project authors. All rights reserved.
+// Copyright © 2025 Apple Inc. and the Pkl project authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,16 +14,20 @@
 // limitations under the License.
 //===----------------------------------------------------------------------===//
 
-// generate config.msgpack: pkl eval pkl/dev/config.pkl -f pkl-binary -o Sources/BuildTimeEval/config.msgpack
+import Gen
+import PklSwift
+import Vapor
 
-amends "../Config.pkl"
+// configures your application
+public func configure(_ app: Application) async throws {
+    let conf = try! PklDecoder.decode(Config.Module.self, from: PackageResources.config_msgpack)
+    // configure with Pkl
+    app.http.server.configuration.hostname = conf.hostname
+    app.http.server.configuration.port = conf.port
+    app.http.server.configuration.tcpNoDelay = conf.tcpNoDelay
+    app.http.server.configuration.backlog = conf.backlog
+    app.http.server.configuration.serverName = conf.serverName
 
-hostname = "localhost"
-
-port = 8080
-
-tcpNoDelay = true
-
-backlog = 128
-
-serverName = "Pkl Swift Example Server"
+    // register routes
+    try routes(app)
+}
