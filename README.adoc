@@ -6,8 +6,8 @@ This is a basic HTTP server that is configured via Pkl in the `pkl/` directory.
 
 == Requirements
 
-* Swift +5.9
-* Pkl +0.25.0
+* Swift +6.1
+* Pkl +0.30.0;s
 
 == Project structure
 
@@ -23,7 +23,10 @@ This is a basic HTTP server that is configured via Pkl in the `pkl/` directory.
 | Generated Swift sources from Pkl
 
 | `Sources/App/`
-| Swift files
+| Swift files for runtime evaluation example
+
+| `Sources/BuildTimeEval/`
+| Swift files for build-time evaluation example
 |===
 
 == Codegen
@@ -34,7 +37,7 @@ To generate new Pkl sources, first install the Swift code generator:
 
 [source,bash]
 ----
-curl -L https://github.com/apple/pkl-swift/releases/download/0.2.0/pkl-gen-swift-macos.bin -o pkl-gen-swift
+curl -L https://github.com/apple/pkl-swift/releases/download/0.7.0/pkl-gen-swift-macos.bin -o pkl-gen-swift
 chmod +x pkl-gen-swift
 ----
 
@@ -43,6 +46,18 @@ With that installed, generate Swift sources via:
 [source,bash]
 ----
 pkl-gen-swift pkl/**.pkl -o Sources/Gen
+----
+
+== Build-time evaluation
+
+The example in `Sources/BuildTimeEval/` shows how the https://pkl-lang.org/main/current/bindings-specification/binary-encoding.html[`pkl-binary` encoding] can be used to configure applications.
+This mechanism separates evaluation of Pkl code from application runtime by encoding the configuration data as `pkl-binary`, storing it in a file, and loading it later during application startup.
+This example works identically to the runtime evaluation example, but does not require the application to spawn the Pkl CLI as a subprocess.
+
+The configuration module is rendered as `pkl-binary` by running:
+[source,bash]
+----
+pkl eval pkl/dev/config.pkl -f pkl-binary -o pkl/dev/config.msgpack
 ----
 
 == Running the server

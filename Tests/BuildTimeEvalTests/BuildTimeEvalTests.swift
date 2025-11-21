@@ -1,5 +1,5 @@
 //===----------------------------------------------------------------------===//
-// Copyright © 2024-2025 Apple Inc. and the Pkl project authors. All rights reserved.
+// Copyright © 2025 Apple Inc. and the Pkl project authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,14 +14,21 @@
 // limitations under the License.
 //===----------------------------------------------------------------------===//
 
-import Vapor
+import XCTVapor
 
-func routes(_ app: Application) throws {
-    app.get { _ async in
-        "It works!"
-    }
+@testable import BuildTimeEval
 
-    app.get("hello") { _ async -> String in
-        "Hello, world!"
+final class BuildTimeEvalTests: XCTestCase {
+    func testHelloWorld() async throws {
+        let app = Application(.testing)
+        defer { app.shutdown() }
+        try await configure(app)
+
+        try app.test(
+            .GET, "hello",
+            afterResponse: { res in
+                XCTAssertEqual(res.status, .ok)
+                XCTAssertEqual(res.body.string, "Hello, world!")
+            })
     }
 }

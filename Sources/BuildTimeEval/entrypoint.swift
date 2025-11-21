@@ -1,5 +1,5 @@
 //===----------------------------------------------------------------------===//
-// Copyright © 2024-2025 Apple Inc. and the Pkl project authors. All rights reserved.
+// Copyright © 2025 Apple Inc. and the Pkl project authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,14 +14,24 @@
 // limitations under the License.
 //===----------------------------------------------------------------------===//
 
+import Logging
 import Vapor
 
-func routes(_ app: Application) throws {
-    app.get { _ async in
-        "It works!"
-    }
+@main
+enum Entrypoint {
+    static func main() async throws {
+        var env = try Environment.detect()
+        try LoggingSystem.bootstrap(from: &env)
 
-    app.get("hello") { _ async -> String in
-        "Hello, world!"
+        let app = Application(env)
+        defer { app.shutdown() }
+
+        do {
+            try await configure(app)
+        } catch {
+            app.logger.report(error: error)
+            throw error
+        }
+        try await app.execute()
     }
 }
