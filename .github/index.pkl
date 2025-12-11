@@ -16,12 +16,7 @@
 
 amends "@pkl.impl.ghactions/PklCI.pkl"
 
-import "pkl:semver"
-
-import "@gha/actions/Common.pkl"
-import "@gha/actions/Setup.pkl"
-import "@gha/Context.pkl"
-import "@gha/Workflow.pkl"
+import "@com.github.actions/catalog.pkl"
 import "@pkl.impl.ghactions/jobs/HawkeyeCheck.pkl"
 import "@pkl.impl.ghactions/steps/SetupPkl.pkl"
 
@@ -37,9 +32,12 @@ main {
     ["test-format-license-headers"] = new HawkeyeCheck {}.job
     ["test"] {
       `runs-on` = "ubuntu-latest"
-      name = "container:Test:\(swiftImage)"
+      name = "Test"
+      container {
+        image = swiftImage
+      }
       steps {
-        new Common.Checkout {}
+        (catalog.`actions/checkout@v6`) {}
         new SetupPkl { version = pklVersion }.step
         new { run = "swift test" }
       }
@@ -47,7 +45,7 @@ main {
     ["test-format-pkl"] {
       `runs-on` = "ubuntu-latest"
       steps {
-        new Common.Checkout {}
+        (catalog.`actions/checkout@v6`) {}
         new SetupPkl { version = pklVersion }.step
         new { run = "pkl format --grammar-version 1 ." }
       }
