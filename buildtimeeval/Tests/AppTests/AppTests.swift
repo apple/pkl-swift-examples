@@ -1,5 +1,5 @@
 //===----------------------------------------------------------------------===//
-// Copyright © 2024-2025 Apple Inc. and the Pkl project authors. All rights reserved.
+// Copyright © 2025 Apple Inc. and the Pkl project authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,24 +14,33 @@
 // limitations under the License.
 //===----------------------------------------------------------------------===//
 
-import Logging
-import Vapor
+@testable import App
+import VaporTesting
+import Testing
 
-@main
-enum Entrypoint {
-    static func main() async throws {
-        var env = try Environment.detect()
-        try LoggingSystem.bootstrap(from: &env)
-
-        let app = Application(env)
-        defer { app.shutdown() }
-
+@Suite("App Tests")
+struct AppTests {
+    private func withApp(_ test: (Application) async throws -> ()) async throws {
+        let app = try await Application.make(.testing)
         do {
             try await configure(app)
+            try await test(app)
         } catch {
-            app.logger.report(error: error)
+            try await app.asyncShutdown()
             throw error
         }
-        try await app.execute()
+        try await app.asyncShutdown()
+    }
+
+    @Test("Test Hello World Route")
+    func testHelloWorld() async throws {
+        try await withApp { app in
+            try await app.testing().test(
+                .GET, "hello",
+                afterResponse: { res in
+                    #expect(res.status == .ok)
+                    #expect(res.body.string == "Hello, world!")
+                })
+        }
     }
 }

@@ -14,21 +14,19 @@
 // limitations under the License.
 //===----------------------------------------------------------------------===//
 
-import XCTVapor
+module Config
 
-@testable import BuildTimeEval
+/// The address the server will accept connections on
+hostname: String
 
-final class BuildTimeEvalTests: XCTestCase {
-    func testHelloWorld() async throws {
-        let app = Application(.testing)
-        defer { app.shutdown() }
-        try await configure(app)
+/// The port the server will accept connections on
+port: Int(isBetween(1, 65_535))
 
-        try app.test(
-            .GET, "hello",
-            afterResponse: { res in
-                XCTAssertEqual(res.status, .ok)
-                XCTAssertEqual(res.body.string, "Hello, world!")
-            })
-    }
-}
+/// Whether the server will attempt to minimize TCP packet delay
+tcpNoDelay: Boolean
+
+/// Maximum length of the pending connections queue
+backlog: Int(isBetween(0, 1000))
+
+/// The `Server` header on outgoing HTTP reponses
+serverName: String?

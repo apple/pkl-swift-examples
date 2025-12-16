@@ -7,7 +7,7 @@ This is a basic HTTP server that is configured via Pkl in the `pkl/` directory.
 == Requirements
 
 * Swift +6.1
-* Pkl +0.30.0;s
+* Pkl +0.30.0
 
 == Project structure
 
@@ -16,16 +16,10 @@ This is a basic HTTP server that is configured via Pkl in the `pkl/` directory.
 | Directory
 | Description
 
-| `pkl/`
-| Pkl configuration sources
-
-| `Sources/Gen/`
-| Generated Swift sources from Pkl
-
-| `Sources/App/`
+| `simple`
 | Swift files for runtime evaluation example
 
-| `Sources/BuildTimeEval/`
+| `buildtimeeval`
 | Swift files for build-time evaluation example
 |===
 
@@ -50,7 +44,7 @@ pkl-gen-swift pkl/**.pkl -o Sources/Gen
 
 == Build-time evaluation
 
-The example in `Sources/BuildTimeEval/` shows how the https://pkl-lang.org/main/current/bindings-specification/binary-encoding.html[`pkl-binary` encoding] can be used to configure applications.
+The example in `buildtimeeval` shows how the https://pkl-lang.org/main/current/bindings-specification/binary-encoding.html[`pkl-binary` encoding] can be used to configure applications.
 This mechanism separates evaluation of Pkl code from application runtime by encoding the configuration data as `pkl-binary`, storing it in a file, and loading it later during application startup.
 This example works identically to the runtime evaluation example, but does not require the application to spawn the Pkl CLI as a subprocess.
 

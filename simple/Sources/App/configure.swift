@@ -1,5 +1,5 @@
 //===----------------------------------------------------------------------===//
-// Copyright © 2024-2025 Apple Inc. and the Pkl project authors. All rights reserved.
+// Copyright © 2025 Apple Inc. and the Pkl project authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,14 +14,20 @@
 // limitations under the License.
 //===----------------------------------------------------------------------===//
 
+import Gen
+import PklSwift
 import Vapor
 
-func routes(_ app: Application) throws {
-    app.get { _ async in
-        "It works!"
-    }
+// configures your application
+public func configure(_ app: Application) async throws {
+    let conf = try! await Config.loadFrom(source: ModuleSource.path("pkl/dev/config.pkl"))
+    // configure with Pkl
+    app.http.server.configuration.hostname = conf.hostname
+    app.http.server.configuration.port = conf.port
+    app.http.server.configuration.tcpNoDelay = conf.tcpNoDelay
+    app.http.server.configuration.backlog = conf.backlog
+    app.http.server.configuration.serverName = conf.serverName
 
-    app.get("hello") { _ async -> String in
-        "Hello, world!"
-    }
+    // register routes
+    try routes(app)
 }
