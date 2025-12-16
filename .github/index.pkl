@@ -20,7 +20,7 @@ import "@com.github.actions/catalog.pkl"
 import "@pkl.impl.ghactions/jobs/HawkeyeCheck.pkl"
 import "@pkl.impl.ghactions/steps/SetupPkl.pkl"
 
-local swiftImage = "swift:6.1-rhel-ubi9"
+local swiftImage = "swift:6.2-rhel-ubi9"
 local pklVersion = "0.30.0"
 
 prb = main
@@ -30,16 +30,22 @@ build = main
 main {
   jobs {
     ["test-format-license-headers"] = new HawkeyeCheck {}.job
-    ["test"] {
-      `runs-on` = "ubuntu-latest"
-      name = "Test"
-      container {
-        image = swiftImage
-      }
-      steps {
-        (catalog.`actions/checkout@v6`) {}
-        new SetupPkl { version = pklVersion }.step
-        new { run = "swift test" }
+    for (path, _ in read*("../*/Package.swift")) {
+      ["test-\(path.split("/").dropLast(1).last)"] {
+        local _name = path.split("/").dropLast(1).last
+        `runs-on` = "ubuntu-latest"
+        name = "Test \(_name)"
+        container {
+          image = swiftImage
+        }
+        steps {
+          (catalog.`actions/checkout@v6`) {}
+          new SetupPkl { version = pklVersion }.step
+          new {
+            `working-directory` = _name
+            run = "swift test"
+          }
+        }
       }
     }
     ["test-format-pkl"] {

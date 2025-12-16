@@ -1,5 +1,5 @@
 //===----------------------------------------------------------------------===//
-// Copyright © 2024-2025 Apple Inc. and the Pkl project authors. All rights reserved.
+// Copyright © 2025 Apple Inc. and the Pkl project authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,19 +14,27 @@
 // limitations under the License.
 //===----------------------------------------------------------------------===//
 
-module Config
+import Vapor
+import Logging
+import NIOCore
+import NIOPosix
 
-/// The address the server will accept connections on
-hostname: String
+@main
+enum Entrypoint {
+    static func main() async throws {
+        var env = try Environment.detect()
+        try LoggingSystem.bootstrap(from: &env)
+        
+        let app = try await Application.make(env)
 
-/// The port the server will accept connections on
-port: Int(isBetween(1, 65_535))
-
-/// Whether the server will attempt to minimize TCP packet delay
-tcpNoDelay: Boolean
-
-/// Maximum length of the pending connections queue
-backlog: Int(isBetween(0, 1000))
-
-/// The `Server` header on outgoing HTTP reponses
-serverName: String?
+        do {
+            try await configure(app)
+            try await app.execute()
+        } catch {
+            app.logger.report(error: error)
+            try? await app.asyncShutdown()
+            throw error
+        }
+        try await app.asyncShutdown()
+    }
+}

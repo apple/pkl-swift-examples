@@ -1,5 +1,5 @@
 //===----------------------------------------------------------------------===//
-// Copyright © 2024-2025 Apple Inc. and the Pkl project authors. All rights reserved.
+// Copyright © 2025 Apple Inc. and the Pkl project authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,16 +14,19 @@
 // limitations under the License.
 //===----------------------------------------------------------------------===//
 
-// generate config.msgpack: pkl eval pkl/dev/config.pkl -f pkl-binary -o Sources/BuildTimeEval/config.msgpack
+module Config
 
-amends "../Config.pkl"
+/// The address the server will accept connections on
+hostname: String
 
-hostname = "localhost"
+/// The port the server will accept connections on
+port: Int(isBetween(1, 65_535))
 
-port = 8080
+/// Whether the server will attempt to minimize TCP packet delay
+tcpNoDelay: Boolean
 
-tcpNoDelay = true
+/// Maximum length of the pending connections queue
+backlog: Int(isBetween(0, 1000))
 
-backlog = 128
-
-serverName = "Pkl Swift Example Server"
+/// The `Server` header on outgoing HTTP reponses
+serverName: String?

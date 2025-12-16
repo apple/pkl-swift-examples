@@ -23,8 +23,8 @@ jobs:
     - run: hawkeye check --config licenserc.toml --fail-if-unknown
     container:
       image: ghcr.io/korandoru/hawkeye@sha256:c3ab994c0d81f3d116aabf9afc534e18648e3e90d7525d741c1e99dd8166ec85
-  test:
-    name: Test
+  test-buildtimeeval:
+    name: Test buildtimeeval
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
@@ -44,9 +44,35 @@ jobs:
         chmod +x $PKL_EXEC
         echo "$DIR" >> "$GITHUB_PATH"
         echo "pkl_exec=$PKL_EXEC" >> "$GITHUB_OUTPUT"
-    - run: swift test
+    - working-directory: buildtimeeval
+      run: swift test
     container:
-      image: swift:6.1-rhel-ubi9
+      image: swift:6.2-rhel-ubi9
+  test-simple:
+    name: Test simple
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      with:
+        persist-credentials: false
+    - name: Setup Pkl
+      id: setup-pkl
+      env:
+        PKL_VERSION: 0.30.0
+        PKL_FILENAME: pkl
+        PKL_DOWNLOAD_URL: https://github.com/apple/pkl/releases/download/0.30.0/pkl-linux-amd64
+      shell: bash
+      run: |-
+        DIR="$(mktemp -d /tmp/pkl-$PKL_VERSION-XXXXXX)"
+        PKL_EXEC="$DIR/$PKL_FILENAME"
+        curl -sfL -o $PKL_EXEC "$PKL_DOWNLOAD_URL"
+        chmod +x $PKL_EXEC
+        echo "$DIR" >> "$GITHUB_PATH"
+        echo "pkl_exec=$PKL_EXEC" >> "$GITHUB_OUTPUT"
+    - working-directory: simple
+      run: swift test
+    container:
+      image: swift:6.2-rhel-ubi9
   test-format-pkl:
     runs-on: ubuntu-latest
     steps:

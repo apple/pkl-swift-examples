@@ -1,6 +1,6 @@
-// swift-tools-version:6.1
+// swift-tools-version:6.2
 //===----------------------------------------------------------------------===//
-// Copyright © 2024-2025 Apple Inc. and the Pkl project authors. All rights reserved.
+// Copyright © 2025 Apple Inc. and the Pkl project authors. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "pkl-swift-examples",
+    name: "pkl-swift-examples-buildtimeeval",
     platforms: [
         .macOS(.v13)
     ],
@@ -36,13 +36,6 @@ let package = Package(
             dependencies: [
                 "Gen",
                 .product(name: "Vapor", package: "vapor"),
-            ]
-        ),
-        .executableTarget(
-            name: "BuildTimeEval",
-            dependencies: [
-                "Gen",
-                .product(name: "Vapor", package: "vapor"),
                 .product(name: "PklSwift", package: "pkl-swift"),
             ],
             resources: [
@@ -54,20 +47,7 @@ let package = Package(
             dependencies: [
                 "Gen",
                 .target(name: "App"),
-                .product(name: "XCTVapor", package: "vapor"),
-
-                // Workaround for https://github.com/apple/swift-package-manager/issues/6940
-                .product(name: "Vapor", package: "vapor"),
-            ]),
-        .testTarget(
-            name: "BuildTimeEvalTests",
-            dependencies: [
-                "Gen",
-                .target(name: "BuildTimeEval"),
-                .product(name: "XCTVapor", package: "vapor"),
-
-                // Workaround for https://github.com/apple/swift-package-manager/issues/6940
-                .product(name: "Vapor", package: "vapor"),
+                .product(name: "VaporTesting", package: "vapor"),
             ]),
     ]
 )
