@@ -12,7 +12,7 @@ jobs:
     name: hawkeye-check
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       with:
         ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || '' }}
         persist-credentials: false
@@ -25,7 +25,7 @@ jobs:
     name: Test buildtimeeval
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       with:
         persist-credentials: false
     - name: Setup Pkl
@@ -50,7 +50,7 @@ jobs:
     name: Test simple
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       with:
         persist-credentials: false
     - name: Setup Pkl
@@ -74,7 +74,7 @@ jobs:
   test-format-pkl:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       with:
         persist-credentials: false
     - name: Setup Pkl
@@ -104,7 +104,7 @@ jobs:
   check-pkl-github-actions:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       with:
         persist-credentials: false
     - name: Setup Pkl
