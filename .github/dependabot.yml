@@ -1,6 +1,18 @@
 version: 2
 updates:
+- package-ecosystem: swift
+  cooldown:
+    default-days: 7
+    exclude:
+    - https://github.com/apple/pkl-swift
+  directories:
+  - /buildtimeeval
+  - /simple
+  schedule:
+    interval: weekly
 - package-ecosystem: github-actions
+  cooldown:
+    default-days: 7
   directory: /
   ignore:
   - dependency-name: '*'

@@ -58,3 +58,24 @@ main {
     }
   }
 }
+
+dependabot {
+  updates {
+    new {
+      `package-ecosystem` = "swift"
+      directories {
+        "/buildtimeeval"
+        "/simple"
+      }
+      schedule {
+        interval = "weekly"
+      }
+      cooldown {
+        `default-days` = 7
+        exclude {
+          "https://github.com/apple/pkl-swift"
+        }
+      }
+    }
+  }
+}
