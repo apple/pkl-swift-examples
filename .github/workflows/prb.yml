@@ -92,6 +92,17 @@ jobs:
         echo "$DIR" >> "$GITHUB_PATH"
         echo "pkl_exec=$PKL_EXEC" >> "$GITHUB_OUTPUT"
     - run: pkl format --grammar-version 1 .
+  verdict:
+    if: '!cancelled() && !failure()'
+    needs:
+    - check-pkl-github-actions
+    - test-format-license-headers
+    - test-buildtimeeval
+    - test-simple
+    - test-format-pkl
+    runs-on: ubuntu-latest
+    steps:
+    - run: 'true'
   upload-event-file:
     runs-on: ubuntu-latest
     steps:
