@@ -1,5 +1,5 @@
 {
-  "originHash" : "c4d20a1010704c94f064d3d004450bad4504f0f234fea30bc54d01fc2ff9d3d4",
+  "originHash" : "aeff2a86d1b7ee3672693c8ec35af106380d8fdab031a4a81ac67c342011b981",
   "pins" : [
     {
       "identity" : "async-http-client",
@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/pkl-swift",
       "state" : {
-        "revision" : "40e5decb9481c8c5d8c64389255166023c936900",
-        "version" : "0.8.2"
+        "revision" : "00f4b15c0941e137bf90de712b6fb643c9f0880a",
+        "version" : "0.10.0"
       }
     },
     {
